@@ -76,7 +76,7 @@ export const PETS = [
   { id: 'fire_baby', name: '火元素宝宝', icon: '🔥', rarity: '稀有', unlock: 'task_milestone', requirement: 25, passive: '互动有几率掉落金币' },
   { id: 'ghost_lamp', name: '幽灵灯', icon: '🏮', rarity: '史诗', unlock: 'task_milestone', requirement: 50, passive: '黑市商品价格 -5%' },
   { id: 'dragon_whelp', name: '幼龙', icon: '🐉', rarity: '传说', unlock: 'task_milestone', requirement: 100, passive: '所有属性成长速度 +10%' },
-  { id: 'pixel_bug', name: '像素虫', icon: '🪲', rarity: '彩蛋', unlock: 'easter_egg', passive: '输入隐藏咒语后解锁' },
+  { id: 'pixel_bug', name: '像素虫', icon: '🪲', rarity: '彩蛋', unlock: 'easter_egg', passive: '创建任务时任务内容输入神秘咒语获取。', hint: '不坐高铁，不坐飞机，全靠两条腿跑，累了还不敢停，饿了只能吃草。问：这是什么员工？' },
 ];
 
 export const ITEM_POOL = [

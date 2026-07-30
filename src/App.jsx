@@ -450,6 +450,12 @@ function App() {
   }, [completionEffect]);
 
   useEffect(() => {
+    const pixelBug = PETS.find((pet) => pet.id === 'pixel_bug');
+    const button = Array.from(document.querySelectorAll('.pet-vault-item')).find((item) => item.textContent.includes(pixelBug.name));
+    if (button && pixelBug.hint) button.title = pixelBug.hint;
+  }, [state.pets, wardrobeTab]);
+
+  useEffect(() => {
     document.querySelectorAll('.quest-card').forEach((card) => {
       const startButton = Array.from(card.querySelectorAll('button')).find((button) => button.textContent.includes('开始挑战'));
       if (startButton) startButton.disabled = false;
@@ -745,7 +751,7 @@ function App() {
       setNotice('悬赏安排已更新');
       return;
     }
-    if (/活人微死，打卡上班|konami|像素虫/i.test(spell)) {
+    if (spell.trim() === '牛马') {
       setState((current) => ({ ...current, pets: [...new Set([...current.pets, 'pixel_bug'])], activePet: 'pixel_bug' }));
       setNotice('彩蛋触发：像素虫从暗门里钻了出来');
       setSpell('');
