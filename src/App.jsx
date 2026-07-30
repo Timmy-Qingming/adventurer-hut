@@ -824,6 +824,11 @@ function App() {
 
   const completeTask = (task) => {
     if (task.status === 'open') {
+      const subTasks = Array.isArray(task.subTasks) ? task.subTasks : [];
+      if (subTasks.some((subTask) => !subTask.done)) {
+        setNotice('当前任务子任务未全部完成哦，请先完成子任务再开始大悬赏哦');
+        return;
+      }
       setState((current) => ({ ...current, tasks: current.tasks.map((item) => item.id === task.id ? { ...item, status: 'in-progress', startedAt: Date.now() } : item) }));
       setNotice('挑战已开始，专注击破这一只小怪');
       return;
