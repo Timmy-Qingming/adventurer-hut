@@ -458,12 +458,17 @@ function App() {
   useEffect(() => {
     document.querySelectorAll('.quest-card').forEach((card) => {
       const startButton = Array.from(card.querySelectorAll('button')).find((button) => button.textContent.includes('开始挑战'));
-      if (startButton) startButton.disabled = false;
+      if (startButton) {
+        startButton.disabled = false;
+        startButton.removeAttribute('disabled');
+      }
       const taskContent = card.querySelector('h3')?.textContent;
       const sameTitleTasks = state.tasks.filter((item) => item.status !== 'done' && item.content === taskContent);
       const sameTitleCards = Array.from(document.querySelectorAll('.quest-card')).filter((item) => item.querySelector('h3')?.textContent === taskContent);
       const task = sameTitleTasks[sameTitleCards.indexOf(card) % Math.max(1, sameTitleTasks.length)];
       if (task) {
+        const hasIncompleteSubTasks = task.status === 'open' && Array.isArray(task.subTasks) && task.subTasks.some((subTask) => !subTask.done);
+        if (hasIncompleteSubTasks && startButton) startButton.title = '当前任务子任务未全部完成哦，请先完成子任务再开始大悬赏哦';
         const stage = getReminderStage(task.deadlineAt || now, now);
         const monster = task.monster || getMonster(task.type, task.difficulty);
         card.classList.remove('monster-sleeping', 'monster-awake', 'monster-urgent', 'monster-warning', 'monster-berserk', 'monster-overdue');
