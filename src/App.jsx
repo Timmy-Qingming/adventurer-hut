@@ -74,13 +74,14 @@ const getReminderText = (stage, monsterName, taskName) => ({
 const EQUIPMENT_SLOTS = ['head', 'face', 'back', 'body', 'leftHand', 'rightHand', 'legs'];
 const SLOT_LABELS = { head: '头部', face: '面部', back: '背部', body: '胸部', leftHand: '左手', rightHand: '右手', legs: '腿部' };
 const RARITY_ORDER = { 传说: 5, 史诗: 4, 稀有: 3, 普通: 2, 惊喜: 1 };
-const JOB_ART = { ranger: '/icons/ranger.svg', mage: '/icons/mage.svg', paladin: '/icons/paladin.svg' };
+const iconUrl = (name) => `${import.meta.env.BASE_URL}icons/${name}.svg`;
+const JOB_ART = { ranger: iconUrl('ranger'), mage: iconUrl('mage'), paladin: iconUrl('paladin') };
 const TASK_TYPES = Object.keys(typeMeta);
 const randomQuote = (quotes) => quotes[Math.floor(Math.random() * quotes.length)];
 
 const shopItems = [
   { id: 'stamina-potion', name: '微光体力药水', description: '恢复 5 点体力，每日最多 2 瓶', price: 30, icon: '🧪', kind: 'potion' },
-  { id: 'ember-sword', name: '余烬短剑', description: '一把会提醒你行动的红色武器', price: 90, icon: '🗡️', iconPath: '/icons/sword.svg', kind: 'weapon' },
+  { id: 'ember-sword', name: '余烬短剑', description: '一把会提醒你行动的红色武器', price: 90, icon: '🗡️', iconPath: iconUrl('sword'), kind: 'weapon' },
   { id: 'moon-staff', name: '月相法杖', description: '适合夜间学习与安静思考', price: 120, icon: '🔮', kind: 'weapon' },
   { id: 'fire-staff', name: '火焰法杖', description: '大魔导士专属，完成任务时爆发火焰', price: 160, icon: '🔥', kind: 'weapon', job: 'mage' },
   { id: 'composite-bow', name: '复合弓', description: '游侠专属，任务完成有掉落加成', price: 160, icon: '🏹', kind: 'weapon', job: 'ranger' },
@@ -205,7 +206,7 @@ function AbilityRadar({ attributes }) {
     const value = Math.max(0, Math.min(50, Number(attributes[key]) || 0)) / 50;
     return { key, x: center + Math.cos(angle) * radius * value, y: center + Math.sin(angle) * radius * value, labelX: center + Math.cos(angle) * 52, labelY: center + Math.sin(angle) * 52 };
   });
-  return <div className="ability-radar" aria-label="能力雷达"><svg viewBox="0 0 120 120" role="img"><image href="/icons/ability-radar.svg" x="8" y="8" width="104" height="104" opacity=".48" /><polygon className="radar-fill" points={points.map(({ x, y }) => `${x},${y}`).join(' ')} /><polygon className="radar-line" points={points.map(({ x, y }) => `${x},${y}`).join(' ')} /><g>{points.map(({ key, labelX, labelY }) => <text key={key} x={labelX} y={labelY}>{key}</text>)}</g></svg></div>;
+  return <div className="ability-radar" aria-label="能力雷达"><svg viewBox="0 0 120 120" role="img"><image href={iconUrl('ability-radar')} x="8" y="8" width="104" height="104" opacity=".48" /><polygon className="radar-fill" points={points.map(({ x, y }) => `${x},${y}`).join(' ')} /><polygon className="radar-line" points={points.map(({ x, y }) => `${x},${y}`).join(' ')} /><g>{points.map(({ key, labelX, labelY }) => <text key={key} x={labelX} y={labelY}>{key}</text>)}</g></svg></div>;
 }
 
 function playChime() {
@@ -1068,7 +1069,7 @@ function App() {
       <PetCorner petId={state.activePet} mood={state.petState.mood} celebrating={Boolean(completionEffect)} onInteract={interactPet} />
       <header className="topbar">
         <div className="brand"><span className="brand-mark">✧</span><div><p className="eyebrow">AIO / 724</p><h1>冒险者小屋</h1></div></div>
-        <div className="top-actions"><span className="save-state">● 本地存档正常</span><button className="nav-button market-button" onClick={() => setActivePanel('shop')}><img src="/icons/shopping.svg" alt="" />黑市</button><button className="nav-button" onClick={() => setActivePanel('raffle')}>抽奖记录</button><button className="icon-button wardrobe-button" onClick={() => setActivePanel('wardrobe')} aria-label="打开衣柜"><img src="/icons/wardrobe.svg" alt="" /></button></div>
+        <div className="top-actions"><span className="save-state">● 本地存档正常</span><button className="nav-button market-button" onClick={() => setActivePanel('shop')}><img src={iconUrl('shopping')} alt="" />黑市</button><button className="nav-button" onClick={() => setActivePanel('raffle')}>抽奖记录</button><button className="icon-button wardrobe-button" onClick={() => setActivePanel('wardrobe')} aria-label="打开衣柜"><img src={iconUrl('wardrobe')} alt="" /></button></div>
       </header>
       {TEST_MODE && <section className="test-tools" aria-label="测试工具"><strong>测试工具</strong><span>仅当前 URL 生效，不代表正式玩法</span><button onClick={() => applyTestPreset('max')}>满资源</button><button onClick={() => applyTestPreset('leveling')}>逐级升级</button><button onClick={() => applyTestPreset('levelByLevel')}>升一级</button><button onClick={() => applyTestPreset('raffle')}>抽奖保底</button><button onClick={() => applyTestPreset('expired')}>过期任务</button><button onClick={() => applyTestPreset('randomTasks')}>随机任务组</button><button className="test-reset" onClick={() => applyTestPreset('reset')}>重置存档</button></section>}
 
